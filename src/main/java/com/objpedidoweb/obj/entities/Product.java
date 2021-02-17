@@ -13,8 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,12 +40,10 @@ public @Data class Product implements Serializable {
 
 	private String imgUrl;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	@Setter(value = AccessLevel.NONE)
 	private Set<Category> categories = new HashSet<>();
-
 
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		super();
@@ -57,7 +53,5 @@ public @Data class Product implements Serializable {
 		this.price = price;
 		this.imgUrl = imgUrl;
 	}
-	
-	
 
 }
