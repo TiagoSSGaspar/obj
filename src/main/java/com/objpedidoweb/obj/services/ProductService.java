@@ -14,14 +14,14 @@ import com.objpedidoweb.obj.repositories.ProductRepository;
 public class ProductService {
 
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductRepository repository;
 	
 	public List<Product> findAll() {
-		return productRepository.findAll();
+		return repository.findAll();
 	}
 	
 	public Product findById(Long id) {
-		Optional<Product> obj = productRepository.findById(id);
+		Optional<Product> obj = repository.findById(id);
 		
 		return obj.get();
 	}

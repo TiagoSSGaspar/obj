@@ -17,12 +17,12 @@ import com.objpedidoweb.obj.services.CategoryService;
 public class CategoryResource {
 
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryService service;
 
 	@GetMapping
 	public ResponseEntity<List<Category>> findAll() {
 
-		List<Category> list = categoryService.findAll();
+		List<Category> list = service.findAll();
 
 		return ResponseEntity.ok().body(list);
 
@@ -31,7 +31,7 @@ public class CategoryResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
 
-		Category obj = categoryService.findById(id);
+		Category obj = service.findById(id);
 
 		return ResponseEntity.ok().body(obj);
 	}

@@ -17,12 +17,12 @@ import com.objpedidoweb.obj.services.OrderService;
 public class OrderResource {
 
 	@Autowired
-	private OrderService orderService;
+	private OrderService service;
 
 	@GetMapping
 	public ResponseEntity<List<Order>> findAll() {
 
-		List<Order> list = orderService.findAll();
+		List<Order> list = service.findAll();
 
 		return ResponseEntity.ok().body(list);
 
@@ -31,7 +31,7 @@ public class OrderResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Order> findById(@PathVariable Long id) {
 
-		Order obj = orderService.findById(id);
+		Order obj = service.findById(id);
 
 		return ResponseEntity.ok().body(obj);
 	}
