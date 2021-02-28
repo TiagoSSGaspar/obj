@@ -20,37 +20,44 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.objpedidoweb.obj.entities.enums.OrderStatus;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Entity
 @Table(name = "tb_order")
-public @Data class Order implements Serializable {
-
+@NoArgsConstructor
+public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Setter(AccessLevel.NONE)
 	private Long id;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	@Setter
+	@Getter
 	private Instant moment;
-
+	
 	private Integer orderStatus;
 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
+	@Setter
+	@Getter
 	private User client;
-	
+
 	@OneToMany(mappedBy = "id.order")
-	@Setter(value = AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	@Getter
 	private Set<OrderItem> items = new HashSet<>();
 	
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	@Setter
+	@Getter
 	private Payment payment;
-
+	
 	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
@@ -59,27 +66,23 @@ public @Data class Order implements Serializable {
 		this.client = client;
 	}
 	
-	
-	public Double getTotal() {
-		double sum = 0.0;
-		
-		for(OrderItem x : items) {
-			sum += x.getSubTotal();
-		}
-		
-		return sum;
-	}
-	
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-
 		if (orderStatus != null) {
 			this.orderStatus = orderStatus.getCode();
 		}
-
 	}
+
+	public Double getTotal() {
+		double sum = 0.0;
+		for (OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+		return sum;
+	}
+	
 
 }

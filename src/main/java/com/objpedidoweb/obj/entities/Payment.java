@@ -13,30 +13,26 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tb_payment")
-public @Data class Payment implements Serializable {
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data public class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Setter(value = AccessLevel.NONE)
 	private Long id;
-	
 	private Instant moment;
 	
 	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Order order;
+	
 }

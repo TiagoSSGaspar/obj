@@ -17,40 +17,46 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tb_product")
-public @Data class Product implements Serializable {
-
+@NoArgsConstructor
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Setter(value = AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	@Getter
 	private Long id;
-
+	
+	@Setter
+	@Getter
 	private String name;
-
+	
+	@Setter
+	@Getter
 	private String description;
-
+	
+	@Setter
+	@Getter
 	private Double price;
-
+	
+	@Setter
+	@Getter
 	private String imgUrl;
+
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@Setter(AccessLevel.NONE)
+	@Getter
+	private Set<Category> categories = new HashSet<>();
 
 	@OneToMany(mappedBy = "id.product")
 	private Set<OrderItem> items = new HashSet<>();
-
-	
-	@ManyToMany
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	@Setter(value = AccessLevel.NONE)
-	private Set<Category> categories = new HashSet<>();
 
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		super();
@@ -60,16 +66,13 @@ public @Data class Product implements Serializable {
 		this.price = price;
 		this.imgUrl = imgUrl;
 	}
-	
-	
+
 	@JsonIgnore
-	public Set<Order> getOrder() {
+	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
-		for(OrderItem x : items) {
+		for (OrderItem x : items) {
 			set.add(x.getOrder());
 		}
-		
 		return set;
 	}
-
 }

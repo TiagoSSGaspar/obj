@@ -19,31 +19,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
 @Table(name = "tb_category")
-public @Data class Category implements Serializable {
-
+@NoArgsConstructor
+@Data public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Setter(value = AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	private Long id;
-
 	private String name;
-	
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "categories")
-	@Setter(value = AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	private Set<Product> products = new HashSet<>();
-
+	
 	public Category(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
-
-	
 
 }
